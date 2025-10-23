@@ -22,47 +22,57 @@
 
 ### Ответ
 
-
-## Подготовка диска:
+# Подготовка диска:
 ```
 user@user:~$ sudo apt install gparted
 ```
+![](702.png)
 
-Установка LUKS (должна быть установлено по умолчанию):
+# Установка LUKS (должна быть установлено по умолчанию):
 ```
 user@user:~$ sudo apt-get install cryptsetup
 ```
-Проверка установки:
+![](703.png)
+# Проверка установки:
 ```
 user@user:~$ cryptsetup --version
 ```
-
-## Подготовка раздела (luksFormat):
+![](704.png)
+# Подготовка раздела (luksFormat):
 ```
 user@user:~$ sudo cryptsetup -y -v --type luks2 luksFormat /dev/sdb1
 ```
-Монтирование раздела:
+![](705.png)
+# Монтирование раздела:
 ```
 user@user:~$ sudo cryptsetup luksOpen /dev/sdb1 disk
 user@user:~$ ls /dev/mapper/disk
 ```
-Форматирование раздела:
+![](706.png)
+# Форматирование раздела:
 ```
 user@user:~$ sudo dd if=/dev/zero of=/dev/mapper/disk
 user@user:~$ sudo mkfs.ext4 /dev/mapper/disk
 ```
-## Монтирование «открытого» раздела:
+![](707.png)
+# Монтирование «открытого» раздела:
 ```
 user@user:~$ mkdir .secret
 user@user:~$ sudo mount /dev/mapper/disk .secret/
 ```
-Завершение работы:
+![](708.png)
+# Завершение работы:
 ```
 user@user:~$ sudo umount .secret
 user@user:~$ sudo cryptsetup luksClose disk
 ```
-Проверка шифрования:
+![](709.png)
+![](710.png)
+![](711.png)
+# Проверка шифрования:
 ```
 sudo cryptsetup luksDump /dev/sdb1
 ```
+![](712.png)
+
 
