@@ -20,18 +20,49 @@
 
 *В качестве ответа пришлите снимки экрана с поэтапным выполнением задания.*
 
-
-## Дополнительные задания (со звёздочкой*)
-
-Эти задания дополнительные, то есть не обязательные к выполнению, и никак не повлияют на получение вами зачёта по этому домашнему заданию. Вы можете их выполнить, если хотите глубже шире разобраться в материале
-
-### Задание 3 *
-
-1. Установите **apparmor**.
-2. Повторите эксперимент, указанный в лекции.
-3. Отключите (удалите) apparmor.
+### Ответ
 
 
-*В качестве ответа пришлите снимки экрана с поэтапным выполнением задания.*
+## Подготовка диска:
+```
+user@user:~$ sudo apt install gparted
+```
 
+Установка LUKS (должна быть установлено по умолчанию):
+```
+user@user:~$ sudo apt-get install cryptsetup
+```
+Проверка установки:
+```
+user@user:~$ cryptsetup --version
+```
+
+## Подготовка раздела (luksFormat):
+```
+user@user:~$ sudo cryptsetup -y -v --type luks2 luksFormat /dev/sdb1
+```
+Монтирование раздела:
+```
+user@user:~$ sudo cryptsetup luksOpen /dev/sdb1 disk
+user@user:~$ ls /dev/mapper/disk
+```
+Форматирование раздела:
+```
+user@user:~$ sudo dd if=/dev/zero of=/dev/mapper/disk
+user@user:~$ sudo mkfs.ext4 /dev/mapper/disk
+```
+## Монтирование «открытого» раздела:
+```
+user@user:~$ mkdir .secret
+user@user:~$ sudo mount /dev/mapper/disk .secret/
+```
+Завершение работы:
+```
+user@user:~$ sudo umount .secret
+user@user:~$ sudo cryptsetup luksClose disk
+```
+Проверка шифрования:
+```
+sudo cryptsetup luksDump /dev/sdb1
+```
 
