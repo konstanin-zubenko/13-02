@@ -27,47 +27,47 @@
 user@user:~$ sudo apt install gparted
 ```
 ![](702.png)
+![](703.png)
+![](704.png)
 
 #### Установка LUKS (должна быть установлено по умолчанию):
 ```
 user@user:~$ sudo apt-get install cryptsetup
 ```
-![](703.png)
+![](705.png)
 #### Проверка установки:
 ```
 user@user:~$ cryptsetup --version
 ```
-![](704.png)
+![](706.png)
 #### Подготовка раздела (luksFormat):
 ```
 user@user:~$ sudo cryptsetup -y -v --type luks2 luksFormat /dev/sdb1
 ```
-![](705.png)
+![](707.png)
 #### Монтирование раздела:
 ```
 user@user:~$ sudo cryptsetup luksOpen /dev/sdb1 disk
 user@user:~$ ls /dev/mapper/disk
 ```
-![](706.png)
+![](708.png)
 #### Форматирование раздела:
 ```
 user@user:~$ sudo dd if=/dev/zero of=/dev/mapper/disk
 user@user:~$ sudo mkfs.ext4 /dev/mapper/disk
 ```
-![](707.png)
+![](709.png)
 #### Монтирование «открытого» раздела:
 ```
 user@user:~$ mkdir .secret
 user@user:~$ sudo mount /dev/mapper/disk .secret/
 ```
-![](708.png)
+![](710.png)
 #### Завершение работы:
 ```
 user@user:~$ sudo umount .secret
 user@user:~$ sudo cryptsetup luksClose disk
 ```
-![](709.png)
-![](710.png)
 ![](711.png)
 #### Проверка шифрования:
 ```
